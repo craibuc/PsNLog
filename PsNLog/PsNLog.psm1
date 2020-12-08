@@ -14,3 +14,14 @@ Get-ChildItem "$PSScriptRoot\lib" -Filter *.dll | ForEach-Object {
     Write-Verbose "Loading $( $_.Name )"
     [System.Reflection.Assembly]::LoadFile( $_.FullName )
 }
+
+Register-ArgumentCompleter -CommandName 'New-NLogTarget' -ParameterName TargetType -ScriptBlock {
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+
+    Write-Verbose "CommandName: $CommandName"
+    Write-Verbose "ParameterName: $ParameterName"
+    Write-Verbose "wordToComplete: $wordToComplete"
+
+    Find-LogTarget -Pattern "$wordToComplete*" | Select-Object -Expand Name
+
+}
