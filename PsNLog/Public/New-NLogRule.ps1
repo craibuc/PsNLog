@@ -24,12 +24,13 @@ function New-NLogRule {
         [string]$Pattern,
 
         [Parameter(Mandatory)]
-        [NLog.LogLevel]$LogLevel,
+        [ValidateSet('Debug','Trace','Info','Warn','Error','Fatal','Off')]
+        [string]$LogLevel,
 
         [Parameter(Mandatory)]
         [NLog.Targets.Target]$Target
     ) 
     
-    [NLog.Config.LoggingRule]::new($Pattern, $LogLevel, $Target)
+    [NLog.Config.LoggingRule]::new($Pattern, [NLog.LogLevel]::FromString($LogLevel), $Target)
 
 }

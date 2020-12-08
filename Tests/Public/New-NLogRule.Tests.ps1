@@ -24,7 +24,7 @@ Describe "New-NLogRule" {
 
         $Parameters = @(
             @{ParameterName='Pattern'; Type='[string]'; Mandatory=$true}
-            @{ParameterName='LogLevel'; Type='[NLog.LogLevel]'; Mandatory=$true}
+            @{ParameterName='LogLevel'; Type='[string]'; Mandatory=$true}
             @{ParameterName='Target'; Type='[NLog.Targets.Target]'; Mandatory=$true}
         )
 
@@ -53,7 +53,7 @@ Describe "New-NLogRule" {
         BeforeEach {
             # arrange
             $Pattern = '*'
-            $LogLevel = [NLog.LogLevel]::Debug
+            $LogLevel = 'Debug' # [NLog.LogLevel]::Debug
             $Target = [NLog.Targets.ColoredConsoleTarget]::new()
 
             # act
