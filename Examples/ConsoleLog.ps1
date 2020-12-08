@@ -1,4 +1,3 @@
-
 Import-Module PsNLog -Force
 
 # console target
