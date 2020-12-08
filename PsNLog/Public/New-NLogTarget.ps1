@@ -18,7 +18,7 @@ function New-NLogTarget() {
 	[CmdletBinding()]
 	param ( 
         [parameter(Mandatory)]
-        [ValidateSet('ConsoleTarget','FileTarget','MailTarget')]
+        [ValidateSet('ColoredConsoleTarget','ConsoleTarget','FileTarget','MailTarget')]
         [string]$TargetType 
     )
 	
