@@ -1,5 +1,5 @@
 # PsNLog
-PowerShell module that wraps the NLog.
+PowerShell module that wraps the NLog assembly.
 
 ## Examples
 
@@ -32,3 +32,7 @@ $Log.Error($ex)
 $Log.Trace("Trace Message")
 $Log.Fatal("Fatal Message")
 ```
+
+## Reference
+
+- [NLog](https://nlog-project.org/)
