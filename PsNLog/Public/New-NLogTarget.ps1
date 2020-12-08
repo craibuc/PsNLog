@@ -18,22 +18,9 @@ function New-NLogTarget() {
 	[CmdletBinding()]
 	param ( 
         [parameter(Mandatory)]
-        [ValidateSet('ColoredConsoleTarget','ConsoleTarget','FileTarget','MailTarget')]
-        [string]$TargetType 
+        [string]$TargetType
     )
 	
 	[System.Activator]::CreateInstance( [type]"NLog.Targets.$TargetType" )
-
-    # switch ($TargetType) {
-	# 	"ConsoleTarget" {
-	# 		[NLog.Targets.ConsoleTarget]::new()
-	# 	}
-	# 	"FileTarget" {
-	# 		[NLog.Targets.FileTarget]::new()
-	# 	}
-	# 	"MailTarget" { 
-	# 		[NLog.Targets.MailTarget]::new()
-	# 	}
-	# }
 
 }
