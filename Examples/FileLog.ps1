@@ -1,30 +1,28 @@
 Import-Module PsNLog -Force
 
 $ScriptName = (Get-Item $PSCommandPath).Basename
+$Here = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 # console target
 $FileTarget = New-NLogTarget -TargetType 'FileTarget'
 $FileTarget.Layout = '${machinename}|${environment-user}|${logger}|${date:format=yyyy-MM-dd HH\:mm\:ss}|${level:uppercase=true}|${message}'
 $FileTarget.CreateDirs = $true	
-$FileTarget.FileName = "$pwd/logs/$ScriptName/$ScriptName.$( (get-date).tostring('yyyyMMdd.HHmmss') ).log"
+$FileTarget.FileName = "$Here/Logs/$ScriptName/$ScriptName.$( (Get-Date).ToString('yyyyMMdd') ).$( (Get-Date).ToString('HHmmss') ).log"
 
 # configuration
-$Config = New-NLogConfig
+$Config = New-NLogConfiguration
 $Config.AddTarget("file", $FileTarget)
 
 $FileRule = New-NLogRule -Pattern '*' -LogLevel ([NLog.LogLevel]::Warn) -Target $FileTarget
 $Config.LoggingRules.Add($FileRule)
 
 # Create a new Logger
-$Log = New-NLogLogger -Name "Export-BambooHrEmployee" -Configuration $Config
+$Logger = New-NLogLogger -Name $ScriptName -Configuration $Config
 
 # Write test Log messages
-$Log.Debug("Debug Message")
-$Log.Info("Info Message")
-$Log.Warn("Warn Message")
-
-$ex = [System.IO.FileNotFoundException]::new('the file wasn''t found')
-
-$Log.Error($ex)
-$Log.Trace("Trace Message")
-$Log.Fatal("Fatal Message")
+$Logger.Debug("Debug Message")
+$Logger.Info("Info Message")
+$Logger.Warn("Warn Message")
+$Logger.Error( [System.IO.FileNotFoundException]::new('the file wasn''t found') )
+$Logger.Trace("Trace Message")
+$Logger.Fatal("Fatal Message")
