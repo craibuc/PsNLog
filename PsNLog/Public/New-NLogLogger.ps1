@@ -16,14 +16,25 @@ $Logger = New-NLogLogger -Name 'lorem ipsum'
 function New-NLogLogger() {
 
     [CmdletBinding()]
+    [OutputType([NLog.Logger])]
     param ( 
-        [parameter(Mandatory)] 
-        [string]$Name,
+        [Parameter(Position=0)]
+        [string]$Name = (Get-PSCallStack)[1].Command,
 
-        [parameter(Mandatory)] 
-        [object]$Configuration
+        [Parameter(Position=1)]
+        [NLog.Config.LoggingConfiguration]$Configuration
     ) 
-    
+
+    Write-Debug $MyInvocation.MyCommand.Name
+    Write-Debug "Name: $Name"
+    Write-Debug "Configuration: $Configuration"
+
+    $Name = [string]::IsNullOrEmpty($Name) ? (Get-PSCallStack)[1].Command : $Name
+
     [NLog.LogManager]::GetLogger($Name)
-    [NLog.LogManager]::Configuration = $Configuration
+    if ($Configuration)
+    {
+        [NLog.LogManager]::Configuration = $Configuration
+    }
+
 }
