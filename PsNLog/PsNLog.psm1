@@ -9,11 +9,10 @@
         . $_
     }
 
-
-Get-ChildItem "$PSScriptRoot\lib" -Filter *.dll | ForEach-Object {
-    Write-Verbose "Loading $( $_.Name )"
-    [System.Reflection.Assembly]::LoadFile( $_.FullName )
-}
+# Get-ChildItem "$PSScriptRoot\lib" -Filter *.dll | ForEach-Object {
+#     Write-Verbose "Loading $( $_.Name )"
+#     [System.Reflection.Assembly]::LoadFile( $_.FullName )
+# }
 
 Register-ArgumentCompleter -CommandName 'New-NLogTarget' -ParameterName TargetType -ScriptBlock {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
