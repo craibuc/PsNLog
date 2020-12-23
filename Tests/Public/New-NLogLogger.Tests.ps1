@@ -23,8 +23,8 @@ Describe "New-NLogLogger" {
         } 
 
         $Parameters = @(
-            @{ParameterName='Name'; Type='[string]'; Mandatory=$true}
-            @{ParameterName='Configuration'; Type='[object]'; Mandatory=$true}
+            @{ParameterName='Name'; Type='[string]'; Mandatory=$false}
+            @{ParameterName='Configuration'; Type='[object]'; Mandatory=$false}
         )
 
         Context 'Data type' {
@@ -49,23 +49,45 @@ Describe "New-NLogLogger" {
 
     Context "Usage" {
 
-        BeforeEach {
-            # arrange
-            $Name = 'lorem ipsum'
-            $Config = [NLog.Config.LoggingConfiguration]::new()
-
-            # act
-            $Actual = New-NLogLogger -Name $Name -Configuration $Config
+        Context "When Name and Configuration supplied" {
+            BeforeEach {
+                # arrange
+                $Name = 'lorem ipsum'
+                $Config = [NLog.Config.LoggingConfiguration]::new()
+    
+                # act
+                $Actual = New-NLogLogger -Name $Name -Configuration $Config
+            }
+    
+            It "returns a [Logger]" {
+                # assert
+                $Actual | Should -BeOfType [NLog.Logger]
+            }
+    
+            It "with a name" {
+                # assert
+                $Actual.Name | Should -Be $Name
+            }    
         }
 
-        It "returns a [Logger]" {
-            # assert
-            $Actual | Should -BeOfType [NLog.Logger]
-        }
-
-        It "with a name" {
-            # assert
-            $Actual.Name | Should -Be $Name
+        Context "When Name isn't supplied" {
+            BeforeEach {
+                # arrange
+                $Config = [NLog.Config.LoggingConfiguration]::new()
+    
+                # act
+                $Actual = New-NLogLogger -Configuration $Config
+            }
+    
+            It "returns a [Logger]" {
+                # assert
+                $Actual | Should -BeOfType [NLog.Logger]
+            }
+    
+            It "with a name that matches the name of the calling script" {
+                # assert
+                $Actual.Name | Should -Be '<ScriptBlock>'
+            }    
         }
 
     } # /context
