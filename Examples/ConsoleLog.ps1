@@ -16,9 +16,9 @@ $Config.LoggingRules.Add($Rule)
 $Logger = New-NLogLogger -Configuration $Config
 
 # Write test Log messages
+$Logger.Trace("Trace Message")
 $Logger.Debug("Debug Message")
 $Logger.Info("Info Message")
 $Logger.Warn("Warn Message")
 $Logger.Error( [System.IO.FileNotFoundException]::new('the file wasn''t found') )
-$Logger.Trace("Trace Message")
 $Logger.Fatal("Fatal Message")
