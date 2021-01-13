@@ -31,10 +31,8 @@ function New-NLogLogger() {
 
     $Name = [string]::IsNullOrEmpty($Name) ? (Get-PSCallStack)[1].Command : $Name
 
+    if ($Configuration) { [NLog.LogManager]::Configuration = $Configuration }
+
     [NLog.LogManager]::GetLogger($Name)
-    if ($Configuration)
-    {
-        [NLog.LogManager]::Configuration = $Configuration
-    }
 
 }
